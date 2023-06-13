@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomButton from '../components/CustomButton';
 import UserContext from '../provider/Provider';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import Gradient from '../components/Gradient';
 
 
 const UsersList = (props) => {
@@ -57,9 +57,7 @@ const UsersList = (props) => {
 
   return (
     <View style={styles.backgroundView}>
-      <View>
-        <Text style={styles.TitleHeader}>Usuarios</Text>
-      </View>
+      <Gradient texto={"Usuarios"} colorAbajo='#a33a5d'/>
       {state?.users?.length === 0 && (
         <View style={styles.container}>
           <Text style={styles.text}>No hay usuarios cargados</Text>
@@ -102,7 +100,8 @@ const styles = StyleSheet.create({
     paddingBottom:10,
     paddingLeft:20,
     backgroundColor:'#a33a5d',
-    borderBottomRightRadius:70
+    borderBottomRightRadius:70,
+    
   },
   rightButtons: {
     alignItems: 'center',

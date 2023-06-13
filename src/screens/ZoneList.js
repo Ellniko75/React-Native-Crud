@@ -4,8 +4,7 @@ import React, { useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomButton from '../components/CustomButton';
 import UserContext from '../provider/Provider';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
+import Gradient from '../components/Gradient';
 
 
 const ZoneList = (props) => {
@@ -60,9 +59,7 @@ const ZoneList = (props) => {
 
   return (
     <View style={styles.backgroundView}>
-      <View>
-        <Text style={styles.TitleHeader}>Zonas</Text>
-      </View>
+      <Gradient texto={"Zonas"} colorAbajo='#ff6c00'/>
       {state?.zonas?.length === 0 && (
         <View style={styles.container}>
           <Text style={styles.text}>No hay Zonas Cargadas</Text>
@@ -94,16 +91,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     justifyContent: 'center',
-  },
-  TitleHeader:{
-    fontSize:40,
-    fontWeight:'bold',
-    color:'#fff',
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20,
-    backgroundColor:'#ff6c00',
-    borderBottomRightRadius:70
   },
   rightButtons: {
     alignItems: 'center',

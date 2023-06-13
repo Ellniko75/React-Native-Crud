@@ -10,15 +10,7 @@ import ZoneForm from "../screens/ZoneForm";
 import InsumosList from "../screens/InsumosList";
 import InsumosForm from "../screens/InsumosForm";
 
-const screenOptions = {
-    headerStyle: {
-        backgroundColor: "#f4511e",
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-        fontWeight: "bold",
-    }
-}
+
 
 const Navigation = () => {
     return (
@@ -30,11 +22,11 @@ const Navigation = () => {
                         title: 'Inicio',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
-                            height: 100,
+                            height: 80,
                         },
                         headerTitleStyle: {
                             color: '#fff',
-                            fontSize: 40
+                            fontSize: 30
                         },
                     }} />
                 <Stack.Screen name="UsersList" component={UsersList}
@@ -42,6 +34,7 @@ const Navigation = () => {
                         title: 'Listado de Usuarios',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -53,6 +46,7 @@ const Navigation = () => {
                         title: 'Formulario de Usuarios',
                         headerStyle: {
                             backgroundColor: '#a33a5d',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -64,6 +58,7 @@ const Navigation = () => {
                         title: 'Listado de Zonas',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -76,6 +71,7 @@ const Navigation = () => {
                         title: 'Formulario de Zonas',
                         headerStyle: {
                             backgroundColor: '#ff6c00',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -87,6 +83,7 @@ const Navigation = () => {
                         title: 'Listado de Insumos',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -99,6 +96,7 @@ const Navigation = () => {
                         title: 'Formulario de Insumos',
                         headerStyle: {
                             backgroundColor: '#CB57F0',
+                            height:80
                         },
                         headerTitleStyle: {
                             color: '#fff',

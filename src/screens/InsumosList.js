@@ -4,7 +4,7 @@ import React, { useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomButton from '../components/CustomButton';
 import UserContext from '../provider/Provider';
-
+import Gradient from '../components/Gradient';
 
 const InsumosList = (props) => {
 
@@ -55,9 +55,7 @@ const InsumosList = (props) => {
 
     return (
         <View style={styles.backgroundView}>
-            <View>
-                <Text style={styles.TitleHeader}>Insumos</Text>
-            </View>
+            <Gradient texto={"Insumos"} colorAbajo='#CB57F0'/>
             <View>
                 {state?.users?.length === 0 && (
                     <View style={styles.container}>
@@ -91,16 +89,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         justifyContent: 'center',
 
-    },
-    TitleHeader: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: '#fff',
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 20,
-        backgroundColor: '#CB57F0',
-        borderBottomRightRadius: 70
     },
     rightButtons: {
         alignItems: 'center',
