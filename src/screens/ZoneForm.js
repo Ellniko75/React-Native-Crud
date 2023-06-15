@@ -3,13 +3,14 @@ import React, { useEffect } from 'react'
 import { useContext } from 'react'
 import UserContext from '../provider/Provider'
 import { useState } from 'react'
-
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../components/CustomButton'
 import { Picker } from '@react-native-picker/picker';
 import * as Location from 'expo-location';
 import Chooser from '../components/Chooser'
+import MapView, {Marker} from 'react-native-maps'
+import { useRef } from 'react'
 
 
 
@@ -19,12 +20,15 @@ const ZoneForm = (props) => {
   const zonaPorParametro = props?.route?.params
 
   //Si le llega un objeto zona como parámetro seteará sus propiedades en el estado
-  const [latitud, setLatitud] = useState(zonaPorParametro?.latitud);
-  const [longitud, setLongitud] = useState(zonaPorParametro?.longitud);
+  const [latitud, setLatitud] = useState(zonaPorParametro?.latitud?zonaPorParametro?.latitud:0);
+  const [longitud, setLongitud] = useState(zonaPorParametro?.longitud?zonaPorParametro?.longitud:0);
   const [lugar, setLugar] = useState(zonaPorParametro?.lugar);
   const [departamento, setDepartamento] = useState(zonaPorParametro?.departamento);
   const [cantidadTrabajadores, setCantTrabajadores] = useState(zonaPorParametro?.cantidadTrabajadores.toString());
 
+
+
+  const map = useRef(null);
 
 
   const mustInsert=()=>{
@@ -33,7 +37,6 @@ const ZoneForm = (props) => {
     }
     return true;
   }
-
 
   const createZone = () => {
     return {
@@ -57,13 +60,6 @@ const ZoneForm = (props) => {
       setLongitud(localizacion.coords.longitude);
     
   }
-
-  useEffect(() => {
-    if (!zonaPorParametro){
-      fetchLocalization();
-    }
-  }, []);
-
   const zoneIsRepeated = () => {
     for (zone of state.zones) {
       if (zone.latitud == latitud && zone.longitud == longitud) {
@@ -72,6 +68,21 @@ const ZoneForm = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (!zonaPorParametro){
+      fetchLocalization();
+    }
+  }, []);
+
+  //Cambiar la posición del mapa en el momento que se cambian las coordenadas
+  useEffect(()=>{
+  map.current?.animateToRegion({
+      latitude: latitud,
+      longitude: longitud,
+      longitudeDelta: 0.004,
+      latitudeDelta: 0,
+    });
+  },[latitud,longitud])
 
   const isInputInvalid = () => {
     if (lugar == null || departamento == null || cantidadTrabajadores == null || latitud == null || longitud == null) {
@@ -105,6 +116,12 @@ const ZoneForm = (props) => {
     setLugar(value);
   }
 
+  const handleMapPress=(event)=>{
+    let latitude = event.nativeEvent.coordinate.latitude
+    let longitude = event.nativeEvent.coordinate.longitude
+    setLatitud(latitude);
+    setLongitud(longitude);
+  }
 
   return (
 
@@ -114,8 +131,24 @@ const ZoneForm = (props) => {
       </View>
 
       <View style={styles.container}>
-
-        
+      <MapView
+        provider='google'
+        style={{flex:1}}
+        initialRegion={{
+          latitude: latitud,
+          longitude: longitud,
+          latitudeDelta: 0,
+          longitudeDelta: 0,
+        }}
+        onPress={handleMapPress}
+        ref={map}
+        >
+        <Marker
+         title='Posicion'
+         coordinate={{latitude:latitud,longitude:longitud}}
+        />
+      </MapView>
+      
 
         <Text style={styles.center}>Ingrese Departamento</Text>
         <TextInput

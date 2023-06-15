@@ -60,11 +60,10 @@ const ZoneList = (props) => {
   return (
     <View style={styles.backgroundView}>
       <Gradient texto={"Zonas"} colorAbajo='#ff6c00'/>
-      {state?.zonas?.length === 0 && (
+      {state?.zones?.length === 0 && (
         <View style={styles.container}>
           <Text style={styles.text}>No hay Zonas Cargadas</Text>
         </View>
-
       )}
       <FlatList
         data={state.zones} renderItem={renderizarZona}>

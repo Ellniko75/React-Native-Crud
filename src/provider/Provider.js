@@ -40,7 +40,6 @@ const reducer = (state, action) => {
       }
     /*#endregion UserActions*/
 
-   
     /*#region ZoneActions*/
        case 'insertZone':
       const aInsertar = action.payload;
@@ -128,7 +127,6 @@ export const Provider = ({ children }) => {
 
   //set up de la base de datos y obtención de datos
   useEffect(() => {
-
   database.setUpDataBase();
   database.getDataFromDB().then((data)=>{
     initialState.users=data.users;

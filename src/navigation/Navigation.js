@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Image } from "react-native-elements";
 const Stack = createStackNavigator();
 import Home from "../screens/Home";
 import UsersList from "../screens/UsersList";
