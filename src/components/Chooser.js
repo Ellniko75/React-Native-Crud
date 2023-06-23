@@ -5,12 +5,11 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 
-const Chooser = (props) => {
+const Chooser = ({guardarEstado,valorInicial,listaDesplegables}) => {
   const [choosenLabel, setChoosenLabel] = useState();
-
   useEffect(() => {
-    if (props.valorInicial) {
-      setChoosenLabel(props?.valorInicial);
+    if (valorInicial) {
+      setChoosenLabel(valorInicial);
     }
   }, [])
 
@@ -26,12 +25,17 @@ const Chooser = (props) => {
           onValueChange={(itemValue) => {
             setChoosenLabel(itemValue);
             //ejecutamos el callback que le llega por parámetros para setear el estado en el otro componente
-            props.guardarEstado(itemValue);
+            guardarEstado(itemValue);
           }}>
-          <Picker.Item label="Eliga un Lugar" value={null} />
-          <Picker.Item label="Estancia" value="Estancia" />
-          <Picker.Item label="Quinta" value="Quinta" />
-          <Picker.Item label="Plantacion" value="Plantacion" />
+          <Picker.Item label="Eliga una Opcion" value={null} />
+          {
+            listaDesplegables.map(item=>{
+              return(
+                <Picker.Item label={item} value={item} key={item}/>
+              )
+            })
+          }
+        
 
 
         </Picker>

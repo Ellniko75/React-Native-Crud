@@ -170,7 +170,7 @@ const ZoneForm = (props) => {
           keyboardType='numeric'
           style={styles.input}
         />
-        <Chooser guardarEstado={setearLugarEnChooser} valorInicial={lugar} />
+        <Chooser guardarEstado={setearLugarEnChooser} valorInicial={lugar} listaDesplegables={["Estancia","Quinta","Plantacion"]} />
 
         {/*En el boton, para el texto nos fijamos si recibió parámetros o no, de esa forma sabemos si el usuario entró a "Agregar usuarios" o a "Editar"*/}
         <CustomButton onPress={handleClick} icon={props?.route?.params ? "edit" : "pluscircleo"} text={props?.route?.params ? "Editar Zona" : "Agregar Zona"} />
