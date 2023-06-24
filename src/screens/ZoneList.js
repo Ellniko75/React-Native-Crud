@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, ScrollView} from 'react-native'
 import { ListItem } from 'react-native-elements'
 import React, { useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -59,15 +59,19 @@ const ZoneList = (props) => {
 
   return (
     <View style={styles.backgroundView}>
+     
       <Gradient texto={"Zonas"} colorAbajo='#ff6c00'/>
       {state?.zones?.length === 0 && (
         <View style={styles.container}>
           <Text style={styles.text}>No hay Zonas Cargadas</Text>
         </View>
       )}
-      <FlatList
-        data={state.zones} renderItem={renderizarZona}>
-      </FlatList>
+
+      
+        <FlatList
+          data={state.zones} renderItem={renderizarZona}>
+        </FlatList>
+      
       <CustomButton onPress={() => props.navigation.navigate('ZoneForm')} icon='pluscircleo' text='Agregar Zona' />
 
     </View>
@@ -79,9 +83,6 @@ export default ZoneList
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignContent: 'center',
-
     padding: 10,
     alignItems: 'center',
     flexDirection: 'row',

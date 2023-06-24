@@ -5,6 +5,12 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 
+{/*
+Este componente actua como un select
+valorInicial=>valor que se mostrará por default, opcional
+listaDesplegable=>array con los valores a desplegar
+guardarEstado=>callback para guardar el estado local del componente al componente padre
+*/}
 const Chooser = ({guardarEstado,valorInicial,listaDesplegables}) => {
   const [choosenLabel, setChoosenLabel] = useState();
   useEffect(() => {
@@ -16,15 +22,11 @@ const Chooser = ({guardarEstado,valorInicial,listaDesplegables}) => {
   return (
     <SafeAreaView style={{}}>
       <View style={{}}>
-        {/*Picker with multiple chose to choose*/}
-        {/*selectedValue to set the preselected value if any*/}
-        {/*onValueChange will help to handle the changes*/}
         <Picker
           value=""
           selectedValue={choosenLabel}
           onValueChange={(itemValue) => {
             setChoosenLabel(itemValue);
-            //ejecutamos el callback que le llega por parámetros para setear el estado en el otro componente
             guardarEstado(itemValue);
           }}>
           <Picker.Item label="Eliga una Opcion" value={null} />

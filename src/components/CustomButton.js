@@ -3,6 +3,10 @@ import React from 'react'
 import {AntDesign} from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const CustomButton = ({ onPress, icon, text, color = '#009688' }) => {
+
+{/*
+Boton custom reutilizable
+*/}
   return (
     <SafeAreaView>
       <View style={{ ...styles.containerButton, backgroundColor: color }}>

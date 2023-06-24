@@ -7,11 +7,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../components/CustomButton'
 import { Picker } from '@react-native-picker/picker';
-import * as Location from 'expo-location';
-import Chooser from '../components/Chooser'
-import MapView, {Marker} from 'react-native-maps'
-import { useRef } from 'react'
 
+import Chooser from '../components/Chooser'
+import { useRef } from 'react'
+import MapWithMarker from '../components/MapWithMarker'
 
 
 const ZoneForm = (props) => {
@@ -20,13 +19,17 @@ const ZoneForm = (props) => {
   const zonaPorParametro = props?.route?.params
 
   //Si le llega un objeto zona como parámetro seteará sus propiedades en el estado
-  const [latitud, setLatitud] = useState(zonaPorParametro?.latitud?zonaPorParametro?.latitud:0);
-  const [longitud, setLongitud] = useState(zonaPorParametro?.longitud?zonaPorParametro?.longitud:0);
+  const [latitud, setLatitud] = useState(zonaPorParametro?zonaPorParametro?.latitud:0);
+  const [longitud, setLongitud] = useState(zonaPorParametro?zonaPorParametro?.longitud:0);
   const [lugar, setLugar] = useState(zonaPorParametro?.lugar);
   const [departamento, setDepartamento] = useState(zonaPorParametro?.departamento);
   const [cantidadTrabajadores, setCantTrabajadores] = useState(zonaPorParametro?.cantidadTrabajadores.toString());
 
 
+  const mapCallback = (Plat,Plong)=>{
+    setLatitud(Plat);
+    setLongitud(Plong);
+  }
 
   const map = useRef(null);
 
@@ -48,18 +51,7 @@ const ZoneForm = (props) => {
     }
   }
 
-  const fetchLocalization = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log("Error")
-        return;
-      }
 
-      let localizacion = await Location.getCurrentPositionAsync({});
-      setLatitud(localizacion.coords.latitude);
-      setLongitud(localizacion.coords.longitude);
-    
-  }
   const zoneIsRepeated = () => {
     for (zone of state.zones) {
       if (zone.latitud == latitud && zone.longitud == longitud) {
@@ -67,22 +59,6 @@ const ZoneForm = (props) => {
       }
     }
   }
-
-  useEffect(() => {
-    if (!zonaPorParametro){
-      fetchLocalization();
-    }
-  }, []);
-
-  //Cambiar la posición del mapa en el momento que se cambian las coordenadas
-  useEffect(()=>{
-  map.current?.animateToRegion({
-      latitude: latitud,
-      longitude: longitud,
-      longitudeDelta: 0.004,
-      latitudeDelta: 0,
-    });
-  },[latitud,longitud])
 
   const isInputInvalid = () => {
     if (lugar == null || departamento == null || cantidadTrabajadores == null || latitud == null || longitud == null) {
@@ -111,17 +87,11 @@ const ZoneForm = (props) => {
     }
 
   }
-  {/*funcion que se pasa como callback al componente chooser para que guarde los datos del lugar*/ }
-  const setearLugarEnChooser = (value) => {
+  
+  const chooserCallback = (value) => {
     setLugar(value);
   }
 
-  const handleMapPress=(event)=>{
-    let latitude = event.nativeEvent.coordinate.latitude
-    let longitude = event.nativeEvent.coordinate.longitude
-    setLatitud(latitude);
-    setLongitud(longitude);
-  }
 
   return (
 
@@ -131,24 +101,8 @@ const ZoneForm = (props) => {
       </View>
 
       <View style={styles.container}>
-      <MapView
-        provider='google'
-        style={{flex:1}}
-        initialRegion={{
-          latitude: latitud,
-          longitude: longitud,
-          latitudeDelta: 0,
-          longitudeDelta: 0,
-        }}
-        onPress={handleMapPress}
-        ref={map}
-        >
-        <Marker
-         title='Posicion'
-         coordinate={{latitude:latitud,longitude:longitud}}
-        />
-      </MapView>
       
+      <MapWithMarker lat={latitud} long={longitud} updateParentState={mapCallback}/>
 
         <Text style={styles.center}>Ingrese Departamento</Text>
         <TextInput
@@ -170,7 +124,7 @@ const ZoneForm = (props) => {
           keyboardType='numeric'
           style={styles.input}
         />
-        <Chooser guardarEstado={setearLugarEnChooser} valorInicial={lugar} listaDesplegables={["Estancia","Quinta","Plantacion"]} />
+        <Chooser guardarEstado={chooserCallback} valorInicial={lugar} listaDesplegables={["Estancia","Quinta","Plantacion"]} />
 
         {/*En el boton, para el texto nos fijamos si recibió parámetros o no, de esa forma sabemos si el usuario entró a "Agregar usuarios" o a "Editar"*/}
         <CustomButton onPress={handleClick} icon={props?.route?.params ? "edit" : "pluscircleo"} text={props?.route?.params ? "Editar Zona" : "Agregar Zona"} />
