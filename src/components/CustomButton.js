@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import {AntDesign} from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const CustomButton = ({ onPress, icon, text, color = '#009688' }) => {
 
-{/*
+  {/*
 Boton custom reutilizable
 */}
   return (
@@ -30,7 +30,7 @@ const styles = StyleSheet.create(
       elevation: 8,
       borderRadius: 20,
       padding: 10,
-      paddingLeft:25,
+      paddingLeft: 25,
       width: 300,
       alignSelf: 'center'
     },
@@ -39,11 +39,11 @@ const styles = StyleSheet.create(
       color: "#fff",
       fontWeight: "bold",
       textTransform: "uppercase",
-      position:'absolute',
-      left:45
+      position: 'absolute',
+      left: 45
     },
-    container:{
-      height:40,
+    container: {
+      height: 40,
       justifyContent: 'center',
     },
 

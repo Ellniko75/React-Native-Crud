@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, ScrollView} from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import React, { useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -25,8 +25,8 @@ const ZoneList = (props) => {
             onPress: () => console.log('Zona no borrada'),
             style: 'cancel',
           },
-          { text: 'Si', onPress: () => dispatch({ type: "deleteZone", payload: item })  },
-          
+          { text: 'Si', onPress: () => dispatch({ type: "deleteZone", payload: item }) },
+
         ])}>
           <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />
         </TouchableOpacity>
@@ -39,8 +39,10 @@ const ZoneList = (props) => {
   const renderizarZona = ({ item }) => {
     return (
       <ListItem.Swipeable
-        key={{latitud:item.latitud,
-        longitud:item.longitud}}
+        key={{
+          latitud: item.latitud,
+          longitud: item.longitud
+        }}
         rightContent={getRightContent(item)} // Agrega aquí el contenido para el lado derecho
         rightStyle={styles.buttonContainer}
         bottomDivider
@@ -59,19 +61,19 @@ const ZoneList = (props) => {
 
   return (
     <View style={styles.backgroundView}>
-     
-      <Gradient texto={"Zonas"} colorAbajo='#ff6c00'/>
+
+      <Gradient texto={"Zonas"} colorAbajo='#ff6c00' />
       {state?.zones?.length === 0 && (
         <View style={styles.container}>
           <Text style={styles.text}>No hay Zonas Cargadas</Text>
         </View>
       )}
 
-      
-        <FlatList
-          data={state.zones} renderItem={renderizarZona}>
-        </FlatList>
-      
+
+      <FlatList
+        data={state.zones} renderItem={renderizarZona}>
+      </FlatList>
+
       <CustomButton onPress={() => props.navigation.navigate('ZoneForm')} icon='pluscircleo' text='Agregar Zona' />
 
     </View>

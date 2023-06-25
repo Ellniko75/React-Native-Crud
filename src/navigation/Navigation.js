@@ -10,7 +10,8 @@ import ZoneList from "../screens/ZoneList";
 import ZoneForm from "../screens/ZoneForm";
 import InsumosList from "../screens/InsumosList";
 import InsumosForm from "../screens/InsumosForm";
-
+import ObservacionesList from "../screens/ObservacionesList";
+import ObservacionesForm from "../screens/ObservacionesForm";
 
 
 const Navigation = () => {
@@ -35,7 +36,7 @@ const Navigation = () => {
                         title: 'Listado de Usuarios',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -47,7 +48,7 @@ const Navigation = () => {
                         title: 'Formulario de Usuarios',
                         headerStyle: {
                             backgroundColor: '#a33a5d',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -59,20 +60,20 @@ const Navigation = () => {
                         title: 'Listado de Zonas',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
                         },
                         headerShadowVisible: false
-                    }} 
+                    }}
                 />
-                 <Stack.Screen name="ZoneForm" component={ZoneForm}
+                <Stack.Screen name="ZoneForm" component={ZoneForm}
                     options={{
                         title: 'Formulario de Zonas',
                         headerStyle: {
                             backgroundColor: '#ff6c00',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -84,7 +85,7 @@ const Navigation = () => {
                         title: 'Listado de Insumos',
                         headerStyle: {
                             backgroundColor: '#4F17F0',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
@@ -97,12 +98,36 @@ const Navigation = () => {
                         title: 'Formulario de Insumos',
                         headerStyle: {
                             backgroundColor: '#CB57F0',
-                            height:80
+                            height: 80
                         },
                         headerTitleStyle: {
                             color: '#fff',
                         },
                         headerShadowVisible: false,
+                    }} />
+                <Stack.Screen name="ObservacionesList" component={ObservacionesList}
+                    options={{
+                        title: 'Observaciones',
+                        headerStyle: {
+                            backgroundColor: '#4F17F0',
+                            height: 80,
+                        },
+                        headerTitleStyle: {
+                            color: '#fff',
+                            fontSize: 30
+                        },
+                    }} />
+                <Stack.Screen name="ObservacionesForm" component={ObservacionesForm}
+                    options={{
+                        title: 'Formulario de Observaciones',
+                        headerStyle: {
+                            backgroundColor: '#4F17F0',
+                            height: 80,
+                        },
+                        headerTitleStyle: {
+                            color: '#fff',
+                            fontSize: 30
+                        },
                     }} />
 
 

@@ -6,7 +6,7 @@ const UserContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    
+
     /*#region UserActions*/
     case 'deleteUser':
       const aBorrar = action.payload;
@@ -41,19 +41,19 @@ const reducer = (state, action) => {
     /*#endregion UserActions*/
 
     /*#region ZoneActions*/
-       case 'insertZone':
+    case 'insertZone':
       const aInsertar = action.payload;
       database.insertZona(aInsertar)
-      return{
+      return {
         ...state,
         zones: [...state.zones, aInsertar]
       }
     case 'deleteZone':
       const aBorrarZona = action.payload;
-      database.deleteZona(aBorrarZona.latitud,aBorrarZona.longitud)
-      return{
+      database.deleteZona(aBorrarZona.latitud, aBorrarZona.longitud)
+      return {
         ...state,
-        zones:state.zones.filter((zone) => (zone.latitud !== aBorrarZona.latitud) && (zone.longitud!==aBorrarZona.longitud))
+        zones: state.zones.filter((zone) => (zone.latitud !== aBorrarZona.latitud) && (zone.longitud !== aBorrarZona.longitud))
       }
     case 'editZone':
       const aModificarZona = action.payload;
@@ -61,18 +61,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         zones: state.zones.map((zone) => {
-          if (zone.longitud==aModificarZona.longitud&&zone.latitud==aModificarZona.latitud) {
+          if (zone.longitud == aModificarZona.longitud && zone.latitud == aModificarZona.latitud) {
             return {
               ...zone,
-              lugar:aModificarZona.lugar,
-              departamento:aModificarZona.departamento,
-              cantidadTrabajadores:aModificarZona.cantidadTrabajadores
+              lugar: aModificarZona.lugar,
+              departamento: aModificarZona.departamento,
+              cantidadTrabajadores: aModificarZona.cantidadTrabajadores
             }
           }
           return zone;
         })
       }
-      
+
     /*#endregion ZoneActions*/
 
     /*#region InsumosActions*/
@@ -108,6 +108,40 @@ const reducer = (state, action) => {
       }
     /*#endregion InsumosActions*/
 
+    /*#region ObservacionesActions*/
+    case 'addObservacion':
+      const OAgregar = action.payload;
+      database.insertObservacion(OAgregar);
+      return {
+        ...state,
+        observaciones: [...state.observaciones, OAgregar]
+      }
+    case 'deleteObservacion':
+      const idBorrar = action.payload.id;
+      database.deleteObservacion(idBorrar);
+      return {
+        ...state,
+        observaciones: state.observaciones.filter((obs) => obs.id !== idBorrar)
+      }
+    case 'editObservacion':
+      const nuevaObservacion = action.payload
+      database.modifyObservacion(nuevaObservacion)
+      return {
+        ...state,
+        observaciones: state.observaciones.map((obs) => {
+          if (obs.id === nuevaObservacion.id) {
+            return {
+              ...obs,
+              titulo: nuevaObservacion.titulo,
+              img: nuevaObservacion.img,
+              latitud: nuevaObservacion.latitud,
+              longitud: nuevaObservacion.longitud
+            }
+          }
+          return obs;
+        })
+      }
+    /*#endregion ObservacionesActions*/
 
     default:
       return state;
@@ -122,26 +156,28 @@ export const Provider = ({ children }) => {
   let initialState = {
     users: [],
     zones: [],
-    insumos:[]
+    insumos: [],
+    observaciones: []
   }
 
   //set up de la base de datos y obtención de datos
   useEffect(() => {
-  database.setUpDataBase();
-  database.getDataFromDB().then((data)=>{
-    initialState.users=data.users;
-    initialState.zones=data.zones;
-    initialState.insumos=data.insumos;
-  })
+    database.setUpDataBase();
+    database.getDataFromDB().then((data) => {
+      initialState.users = data.users;
+      initialState.zones = data.zones;
+      initialState.insumos = data.insumos;
+      initialState.observaciones = data.observaciones
+    })
   }, [])
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    
+
     <UserContext.Provider value={{ state, dispatch }}>
       {children}
-      
+
     </UserContext.Provider>
   );
 };

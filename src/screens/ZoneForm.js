@@ -19,14 +19,14 @@ const ZoneForm = (props) => {
   const zonaPorParametro = props?.route?.params
 
   //Si le llega un objeto zona como parámetro seteará sus propiedades en el estado
-  const [latitud, setLatitud] = useState(zonaPorParametro?zonaPorParametro?.latitud:0);
-  const [longitud, setLongitud] = useState(zonaPorParametro?zonaPorParametro?.longitud:0);
+  const [latitud, setLatitud] = useState(zonaPorParametro ? zonaPorParametro?.latitud : 0);
+  const [longitud, setLongitud] = useState(zonaPorParametro ? zonaPorParametro?.longitud : 0);
   const [lugar, setLugar] = useState(zonaPorParametro?.lugar);
   const [departamento, setDepartamento] = useState(zonaPorParametro?.departamento);
   const [cantidadTrabajadores, setCantTrabajadores] = useState(zonaPorParametro?.cantidadTrabajadores.toString());
 
 
-  const mapCallback = (Plat,Plong)=>{
+  const mapCallback = (Plat, Plong) => {
     setLatitud(Plat);
     setLongitud(Plong);
   }
@@ -34,8 +34,8 @@ const ZoneForm = (props) => {
   const map = useRef(null);
 
 
-  const mustInsert=()=>{
-    if(zonaPorParametro){
+  const mustInsert = () => {
+    if (zonaPorParametro) {
       return false
     }
     return true;
@@ -50,7 +50,6 @@ const ZoneForm = (props) => {
       cantidadTrabajadores: cantidadTrabajadores
     }
   }
-
 
   const zoneIsRepeated = () => {
     for (zone of state.zones) {
@@ -72,22 +71,22 @@ const ZoneForm = (props) => {
       return;
     }
     if (mustInsert()) {
-      if(zoneIsRepeated()){
-        Alert.alert("Error","Zona repetida")
-      }else{
+      if (zoneIsRepeated()) {
+        Alert.alert("Error", "Zona repetida")
+      } else {
         let zone = createZone();
         dispatch({ type: 'insertZone', payload: zone })
         props.navigation.navigate("ZoneList");
       }
     }
-    else{
+    else {
       let zone = createZone();
       dispatch({ type: 'editZone', payload: zone })
       props.navigation.navigate("ZoneList");
     }
 
   }
-  
+
   const chooserCallback = (value) => {
     setLugar(value);
   }
@@ -95,14 +94,14 @@ const ZoneForm = (props) => {
 
   return (
 
-    <SafeAreaView style={{ flex: 1 , marginTop:-24}}>
+    <SafeAreaView style={{ flex: 1, marginTop: -24 }}>
       <View>
         <Text style={styles.TitleHeader}>Zona</Text>
       </View>
 
       <View style={styles.container}>
-      
-      <MapWithMarker lat={latitud} long={longitud} updateParentState={mapCallback}/>
+
+        <MapWithMarker lat={latitud} long={longitud} updateParentState={mapCallback} />
 
         <Text style={styles.center}>Ingrese Departamento</Text>
         <TextInput
@@ -124,7 +123,7 @@ const ZoneForm = (props) => {
           keyboardType='numeric'
           style={styles.input}
         />
-        <Chooser guardarEstado={chooserCallback} valorInicial={lugar} listaDesplegables={["Estancia","Quinta","Plantacion"]} />
+        <Chooser etiqueta={"Eliga un lugar"} guardarEstado={chooserCallback} valorInicial={lugar} listaDesplegables={["Estancia", "Quinta", "Plantacion"]} />
 
         {/*En el boton, para el texto nos fijamos si recibió parámetros o no, de esa forma sabemos si el usuario entró a "Agregar usuarios" o a "Editar"*/}
         <CustomButton onPress={handleClick} icon={props?.route?.params ? "edit" : "pluscircleo"} text={props?.route?.params ? "Editar Zona" : "Agregar Zona"} />
@@ -142,25 +141,25 @@ const styles = StyleSheet.create({
     height: 40,
     marginTop: 12,
     borderWidth: 1,
-    
+
   },
-  center:{
-    fontSize:20,
+  center: {
+    fontSize: 20,
   },
   container: {
     flex: 1,
-    paddingLeft:40,
-    paddingRight:40,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
-  TitleHeader:{
-    fontSize:40,
-    fontWeight:'bold',
-    color:'#fff',
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20,
-    backgroundColor:'#ff6c00',
-    borderBottomRightRadius:70,
-    marginBottom:40,
+  TitleHeader: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    backgroundColor: '#ff6c00',
+    borderBottomRightRadius: 70,
+    marginBottom: 40,
   },
 })

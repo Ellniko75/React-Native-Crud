@@ -53,6 +53,22 @@ const database = {
       });
     });
   },
+  createTableObservaciones: async () => {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'CREATE TABLE if not exists observaciones (id int primary key, titulo varchar(30), latitud decimal(9,6), longitud decimal(9,6), img varchar(500))',
+          [],
+          (_, succes) => {
+            resolve(succes);
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+      });
+    });
+  },
   getUsers: async () => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
@@ -60,7 +76,7 @@ const database = {
           "SELECT * FROM users",
           [],
           (_, { rows: { _array } }) => {
-            
+
             resolve(_array);
           },
           (_, error) => {
@@ -91,6 +107,22 @@ const database = {
       db.transaction((tx) => {
         tx.executeSql(
           "SELECT * FROM insumos",
+          [],
+          (_, { rows: { _array } }) => {
+            resolve(_array);
+          },
+          (_, error) => {
+            reject(error);
+          }
+        );
+      });
+    });
+  },
+  getObservaciones: async () => {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM observaciones",
           [],
           (_, { rows: { _array } }) => {
             resolve(_array);
@@ -163,7 +195,7 @@ const database = {
       db.transaction(
         tx => {
           tx.executeSql("INSERT INTO zonas VALUES (?,?,?,?,?)",
-            [zona.latitud,zona.longitud,zona.lugar,zona.departamento,zona.cantidadTrabajadores],
+            [zona.latitud, zona.longitud, zona.lugar, zona.departamento, zona.cantidadTrabajadores],
             (tx, result) => {
               resolve(result);
 
@@ -177,7 +209,7 @@ const database = {
       )
     })
   },
-  deleteZona:async(latitud,longitud)=>{
+  deleteZona: async (latitud, longitud) => {
     return new Promise((resolve, reject) => {
       db.transaction(
         tx => {
@@ -196,12 +228,12 @@ const database = {
       )
     })
   },
-  modifyZona:async(zona)=>{
+  modifyZona: async (zona) => {
     return new Promise((resolve, reject) => {
       db.transaction(
         tx => {
           tx.executeSql(`UPDATE zonas SET lugar = ?, departamento=?, cantidadTrabajadores=? WHERE latitud=${zona.latitud} AND longitud=${zona.longitud}`,
-            [zona.lugar,zona.departamento,zona.cantidadTrabajadores],
+            [zona.lugar, zona.departamento, zona.cantidadTrabajadores],
             (tx, result) => {
               resolve(result);
 
@@ -270,7 +302,61 @@ const database = {
       )
     })
   },
+  insertObservacion: async (observacion) => {
+    return new Promise((resolve, reject) => {
+      db.transaction(
+        tx => {
+          tx.executeSql("INSERT INTO observaciones VALUES (?,?,?,?,?)",
+            [observacion.id, observacion.titulo, observacion.latitud, observacion.longitud, observacion.img],
+            (tx, result) => {
+              resolve(result);
 
+            },
+            (_, error) => {
+              reject(error)
+
+            }
+          )
+        }
+      )
+    })
+  },
+  deleteObservacion: async (idObservacion) => {
+    return new Promise((resolve, reject) => {
+      db.transaction(
+        tx => {
+          tx.executeSql(`DELETE FROM observaciones WHERE id='${idObservacion}'`,
+            [],
+            (tx, result) => {
+              resolve(result);
+            },
+            (_, error) => {
+              reject(error)
+            }
+
+          )
+        }
+      )
+    })
+  },
+  modifyObservacion: async (observacion) => {
+    return new Promise((resolve, reject) => {
+      db.transaction(
+        tx => {
+          tx.executeSql(
+            `UPDATE observaciones SET titulo=?, latitud=?, longitud=?,img=? WHERE id=?`,
+            [observacion.titulo, observacion.latitud, observacion.longitud, observacion.img, observacion.id],
+            (tx, result) => {
+              resolve(result)
+            },
+            (_, error) => {
+              reject(error)
+            }
+          )
+        }
+      )
+    })
+  },
   dropAllTables: async () => {
     return new Promise((resolve, reject) => {
       db.transaction(
@@ -320,32 +406,35 @@ const database = {
       );
     });
   },
-  setUpDataBase:async()=>{
+  setUpDataBase: async () => {
     await database.createTableUsers();
     await database.createTableZonas();
     await database.createTableInsumos();
+    await database.createTableObservaciones();
     return;
   },
-  getDataFromDB:async()=>{
+  getDataFromDB: async () => {
     let usersFromDB = await database.getUsers();
     let zonasFromDB = await database.getZonas();
     let insumosFromDB = await database.getInsumos();
+    let observacionesFromDB = await database.getObservaciones();
 
-    return{
-      users:usersFromDB,
-      zones:zonasFromDB,
-      insumos:insumosFromDB
+    return {
+      users: usersFromDB,
+      zones: zonasFromDB,
+      insumos: insumosFromDB,
+      observaciones: observacionesFromDB
     }
   }
-    
-    
-    
-   
-   
 
-   
+
+
+
+
+
+
 }
- 
+
 
 
 
