@@ -69,6 +69,22 @@ const database = {
       });
     });
   },
+  createTableTratamientos: async () => {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'CREATE TABLE if not exists tratamientos (id int primary key, nombre varchar(30), latitudZona decimal(9,6),longitudZona decimal(9,6), ciUser int, fechaInicio date, fechaFin date,tiempo int, img varchar(500),idInsumo int,idObservacion int, FOREIGN KEY (latitudZona,longitudZona) REFERENCES zonas(latitud,longitud), FOREIGN KEY (ciUser) REFERENCES users(ci), FOREIGN KEY (idInsumo) REFERENCES insumos(id), FOREIGN KEY(idObservacion) REFERENCES observaciones(id) )',
+          [],
+          (_, succes) => {
+            resolve(succes);
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+      });
+    });
+  },
   getUsers: async () => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
@@ -411,6 +427,7 @@ const database = {
     await database.createTableZonas();
     await database.createTableInsumos();
     await database.createTableObservaciones();
+    await database.createTableTratamientos();
     return;
   },
   getDataFromDB: async () => {
@@ -418,6 +435,7 @@ const database = {
     let zonasFromDB = await database.getZonas();
     let insumosFromDB = await database.getInsumos();
     let observacionesFromDB = await database.getObservaciones();
+
 
     return {
       users: usersFromDB,

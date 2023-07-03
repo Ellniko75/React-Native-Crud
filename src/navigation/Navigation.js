@@ -12,7 +12,8 @@ import InsumosList from "../screens/InsumosList";
 import InsumosForm from "../screens/InsumosForm";
 import ObservacionesList from "../screens/ObservacionesList";
 import ObservacionesForm from "../screens/ObservacionesForm";
-
+import TratamientosList from "../screens/TratamientosList";
+import TratamientosForm from "../screens/TratamientosForm";
 
 const Navigation = () => {
     return (
@@ -128,6 +129,30 @@ const Navigation = () => {
                             color: '#fff',
                             fontSize: 30
                         },
+                    }} />
+                <Stack.Screen name="TratamientosList" component={TratamientosList}
+                    options={{
+                        title: 'Listado de Usuarios',
+                        headerStyle: {
+                            backgroundColor: '#4F17F0',
+                            height: 80
+                        },
+                        headerTitleStyle: {
+                            color: '#fff',
+                        },
+                        headerShadowVisible: false
+                    }} />
+                <Stack.Screen name="TratamientosForm" component={TratamientosForm}
+                    options={{
+                        title: 'Listado de Usuarios',
+                        headerStyle: {
+                            backgroundColor: '#4F17F0',
+                            height: 80
+                        },
+                        headerTitleStyle: {
+                            color: '#fff',
+                        },
+                        headerShadowVisible: false
                     }} />
 
 

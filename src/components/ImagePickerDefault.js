@@ -21,7 +21,7 @@ export default function ImagePickerDefault({ callback }) {
     };
 
     return (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center', marginTop: 20 }}>
             <Button title="Eliga una Imagen" onPress={pickImage} />
         </View>
     );

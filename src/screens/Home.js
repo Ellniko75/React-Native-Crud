@@ -14,7 +14,8 @@ const Home = (props) => {
         <CustomButton onPress={() => { props.navigation.navigate("UsersList") }} icon="user" text="usuarios" color="#a33a5d" />
         <CustomButton onPress={() => { props.navigation.navigate("ZoneList") }} icon="rest" text="zonas" color="#ff6c00" />
         <CustomButton onPress={() => { props.navigation.navigate("InsumosList") }} icon="filter" text="Insumos" color="#CB57F0" />
-        <CustomButton onPress={() => { props.navigation.navigate("ObservacionesList") }} icon="filter" text="Observaciones" color="#097969" />
+        <CustomButton onPress={() => { props.navigation.navigate("ObservacionesList") }} icon="eye" text="Observaciones" color="#097969" />
+        <CustomButton onPress={() => { props.navigation.navigate("TratamientosList") }} icon="heart" text="Tratamientos" color="#5fb9ba" />
 
       </View >
     </BackgroundImage>

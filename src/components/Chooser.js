@@ -11,8 +11,10 @@ valorInicial=>valor que se mostrará por default, opcional
 listaDesplegable=>array con los valores a desplegar
 guardarEstado=>callback para guardar el estado local del componente al componente padre
 */}
-const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta }) => {
-  const [choosenLabel, setChoosenLabel] = useState();
+const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta, renderizarItem }) => {
+  const [choosenLabel, setChoosenLabel] = useState("");
+
+
   useEffect(() => {
     if (valorInicial) {
       setChoosenLabel(valorInicial);
@@ -29,18 +31,24 @@ const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta }) =
             setChoosenLabel(itemValue);
             guardarEstado(itemValue);
           }}>
+
           <Picker.Item label={etiqueta} value={null} />
-          {
+          {!renderizarItem ?
             listaDesplegables.map(item => {
               return (
                 <Picker.Item label={item} value={item} key={item} />
               )
             })
+            :
+            listaDesplegables.map(item =>
+              renderizarItem(item)
+            )
           }
-
-
-
         </Picker>
+
+
+
+
 
       </View>
     </SafeAreaView>

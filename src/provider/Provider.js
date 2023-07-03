@@ -143,6 +143,16 @@ const reducer = (state, action) => {
       }
     /*#endregion ObservacionesActions*/
 
+    /*#region TratamientosActions*/
+    case 'addTratamiento':
+      const tratamiento = action.payload;
+      return {
+        ...state,
+        tratamientos: [...state.tratamientos, tratamiento]
+      }
+
+    /*#endregion */
+
     default:
       return state;
   }
@@ -157,7 +167,8 @@ export const Provider = ({ children }) => {
     users: [],
     zones: [],
     insumos: [],
-    observaciones: []
+    observaciones: [],
+    tratamientos: []
   }
 
   //set up de la base de datos y obtención de datos

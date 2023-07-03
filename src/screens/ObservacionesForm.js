@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Alert } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import ImagePickerDefault from '../components/ImagePickerDefault'
 import { useState, useContext } from 'react'
 import Chooser from '../components/Chooser'
