@@ -6,6 +6,7 @@ import CustomButton from '../components/CustomButton';
 import UserContext from '../provider/Provider';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Gradient from '../components/Gradient';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const UsersList = (props) => {
@@ -56,22 +57,23 @@ const UsersList = (props) => {
 
 
   return (
-    <View style={styles.backgroundView}>
-      <Gradient texto={"Usuarios"} colorAbajo='#a33a5d'/>
-      {state?.users?.length === 0 && (
-        <View style={styles.container}>
-          <Text style={styles.text}>No hay usuarios cargados</Text>
-        </View>
 
-      )}
+    <>
+      <Gradient texto={"Usuarios"} colorAbajo='#a33a5d' />
+      {
+        state?.users?.length === 0 && (
+          <View style={styles.container}>
+            <Text style={styles.text}>No hay usuarios cargados</Text>
+          </View>
+
+        )
+      }
       <FlatList
-
         data={state.users} renderItem={renderizarUsuarios}>
-
       </FlatList>
-      <CustomButton onPress={() => props.navigation.navigate('UsersForm')} icon='pluscircleo' text='Agregar Usuarios'/>
+      <CustomButton onPress={() => props.navigation.navigate('UsersForm')} icon='pluscircleo' text='Agregar Usuarios' />
 
-    </View>
+    </>
   )
 
 }
@@ -92,16 +94,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  TitleHeader:{
-    fontSize:40,
-    fontWeight:'bold',
-    color:'#fff',
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20,
-    backgroundColor:'#a33a5d',
-    borderBottomRightRadius:70,
-    
+  TitleHeader: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    backgroundColor: '#a33a5d',
+    borderBottomRightRadius: 70,
+
   },
   rightButtons: {
     alignItems: 'center',

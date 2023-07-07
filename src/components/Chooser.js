@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState, useRef } from 'react';
 //import all the components we are going to use
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
-
 import { Picker } from '@react-native-picker/picker';
+
 
 {/*
 Este componente actua como un select
@@ -12,9 +11,7 @@ listaDesplegable=>array con los valores a desplegar
 guardarEstado=>callback para guardar el estado local del componente al componente padre
 */}
 const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta, renderizarItem }) => {
-  const [choosenLabel, setChoosenLabel] = useState("");
-
-
+  const [choosenLabel, setChoosenLabel] = useState();
   useEffect(() => {
     if (valorInicial) {
       setChoosenLabel(valorInicial);
@@ -25,7 +22,7 @@ const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta, ren
     <SafeAreaView style={{}}>
       <View style={{}}>
         <Picker
-          value=""
+          value={""}
           selectedValue={choosenLabel}
           onValueChange={(itemValue) => {
             setChoosenLabel(itemValue);

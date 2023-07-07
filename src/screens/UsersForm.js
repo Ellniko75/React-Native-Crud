@@ -14,8 +14,8 @@ const UsersForm = (props) => {
   const [apellido, setApellido] = useState(userPorParametro?.apellido)
 
 
-  const mustAdd=()=>{
-    if(!userPorParametro){
+  const mustAdd = () => {
+    if (!userPorParametro) {
       return true;
     }
     return false
@@ -50,7 +50,7 @@ const UsersForm = (props) => {
       dispatch({ type: 'addUser', payload: { nombre: name, apellido: apellido, ci: ci } });
       props.navigation.navigate("UsersList")
     }
-    else{
+    else {
       if (checkValidInputsModify()) {
         dispatch({ type: 'modifyUser', payload: { nombre: name, apellido: apellido, ci: ci } });
         props.navigation.navigate("UsersList")
@@ -59,7 +59,8 @@ const UsersForm = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, marginTop:-24 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: -24 }}>
+
       <View>
         <Text style={styles.TitleHeader}>Usuario</Text>
       </View>
@@ -115,18 +116,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingLeft:40,
-    paddingRight:40,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
-  TitleHeader:{
-    fontSize:40,
-    fontWeight:'bold',
-    color:'#fff',
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20,
-    backgroundColor:'#a33a5d',
-    borderBottomRightRadius:70,
-    marginBottom:20
+  TitleHeader: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    backgroundColor: '#a33a5d',
+    borderBottomRightRadius: 70,
+    marginBottom: 20
   },
 });

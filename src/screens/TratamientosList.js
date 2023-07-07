@@ -14,17 +14,17 @@ const TratamientosList = (props) => {
         return (
             <View style={styles.rightButtons}>
                 {/*Si clickea el botón de editar lo mandamos al InsumosForm y le envíamos de parámetro el Insumos que eligió editar*/}
-                <TouchableOpacity onPress={() => props.navigation.navigate("InsumosForm", item)}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("TratamientosForm", item)}>
                     <MaterialCommunityIcons name="square-edit-outline" size={50} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => Alert.alert('Desea borrar el Insumos?', '', [
+                <TouchableOpacity onPress={() => Alert.alert('Desea borrar el Tratamiento?', '', [
                     {
                         text: 'No',
-                        onPress: () => console.log('Insumos no borrado'),
+                        onPress: () => console.log('Tratamiento no borrado'),
                         style: 'cancel',
                     },
-                    { text: 'Si', onPress: () => dispatch({ type: "deleteInsumos", payload: item }) },
+                    { text: 'Si', onPress: () => dispatch({ type: "deleteTratamiento", payload: item }) },
                 ])}>
                     <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />
                 </TouchableOpacity>
@@ -53,7 +53,7 @@ const TratamientosList = (props) => {
                     <ListItem.Title>{"ID: " + item?.id}</ListItem.Title>
                     <ListItem.Title>{"Usuario: " + buscarNombreYApellido(item.ciUser)}</ListItem.Title>
                     <ListItem.Title>{"Fecha: " + item?.fechaInicio}</ListItem.Title>
-                    <ListItem.Title>{"Fecha: " + item?.idObservacion ? "Tiene Observacion" : "No tiene observacion"}</ListItem.Title>
+                    <ListItem.Title>{item?.idObservacion ? "Tiene Observacion" : "No tiene observacion"}</ListItem.Title>
                 </ListItem.Content>
             </ListItem.Swipeable>
         );

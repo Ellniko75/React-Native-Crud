@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useState, useContext } from 'react'
@@ -16,21 +16,23 @@ const TratamientosForm = (props) => {
 
     const { state, dispatch } = useContext(UserContext)
 
-    const [id, setId] = useState();
-    const [nombre, setNombre] = useState("");
-    const [zona, setZona] = useState({
-        latitudZona: null,
-        longitudZona: null
-    })
-    const [ciUser, setCiUser] = useState();
-    const [fechaInicio, setFechaInicio] = useState(tratamientoPorParametro ? tratamientoPorParametro.fechaInicio : new Date());
-    const [fechaFin, setFechaFin] = useState(tratamientoPorParametro ? tratamientoPorParametro.fechaFin : new Date());
-    const [img, setImg] = useState();
-    const [tiempo, setTiempo] = useState();
-    const [idInsumo, setIdInsumo] = useState();
-    const [idObservacion, setIdObservacion] = useState(); const [imagenObs, setImagenObs] = useState("");
+    const [id, setId] = useState(tratamientoPorParametro ? tratamientoPorParametro.id.toString() : "");
+    const [nombre, setNombre] = useState(tratamientoPorParametro ? tratamientoPorParametro.nombre : "");
+    const [zona, setZona] = useState(tratamientoPorParametro ? { latitudZona: tratamientoPorParametro.latitudZona, longitudZona: tratamientoPorParametro.longitudZona }
+        : {
+            latitudZona: null,
+            longitudZona: null
+        })
+    const [ciUser, setCiUser] = useState(tratamientoPorParametro ? tratamientoPorParametro.ciUser.toString() : "");
+    const [fechaInicio, setFechaInicio] = useState(new Date());
+    const [fechaFin, setFechaFin] = useState(new Date());
+    const [img, setImg] = useState(tratamientoPorParametro ? tratamientoPorParametro.img : null);
+    const [tiempo, setTiempo] = useState(tratamientoPorParametro ? tratamientoPorParametro.tiempo.toString() : "");
+    const [idInsumo, setIdInsumo] = useState(tratamientoPorParametro ? tratamientoPorParametro.idInsumo.toString() : "");
+    const [idObservacion, setIdObservacion] = useState(tratamientoPorParametro ? tratamientoPorParametro.idObservacion : null); const [imagenObs, setImagenObs] = useState(tratamientoPorParametro ? tratamientoPorParametro.idObservacion.toString() : "");
+
     const inputsAreValid = () => {
-        if (id != null && nombre != "" && zona.latitudZona != null && ciUser != null && img != null && tiempo != null && idInsumo != null && idObservacion != null) {
+        if (id != null && nombre != "" && zona.latitudZona != null && ciUser != null && img != null && tiempo != null && idInsumo != null) {
             return true;
         } return false
     }
@@ -41,8 +43,8 @@ const TratamientosForm = (props) => {
             latitudZona: zona.latitudZona,
             longitudZona: zona.longitudZona,
             ciUser: ciUser,
-            fechaInicio: fechaInicio,
-            fechaFin: fechaFin,
+            fechaInicio: fechaInicio.toString(),
+            fechaFin: fechaFin.toString(),
             tiempo: tiempo,
             img: img,
             idInsumo: idInsumo,
@@ -52,7 +54,9 @@ const TratamientosForm = (props) => {
 
     const renderItemZona = (item) => {
         return (
-            <Picker.Item label={item.latitud + " " + item.longitud} value={{ latitudZona: item.latitud, longitudZona: item.longitud }} key={Date.now()} />
+            <Picker.Item label={item.latitud + " " + item.longitud}
+                value={{ latitudZona: item.latitud, longitudZona: item.longitud }}
+                key={{ latitudZona: item.latitud, longitudZona: item.longitud }} />
         )
     }
     const renderItemUsuario = (item) => {
@@ -62,7 +66,7 @@ const TratamientosForm = (props) => {
     }
     const renderizarInsumos = (insumo) => {
         return (
-            <Picker.Item label={insumo.nombre} value={insumo.id} key={insumo.id} />
+            <Picker.Item label={insumo.nombre} value={insumo.id.toString()} key={insumo.id.toString()} />
         )
     }
     const renderizarObservaciones = (observacion) => {
@@ -108,8 +112,16 @@ const TratamientosForm = (props) => {
 
     const handlePressAddOrModify = () => {
         if (inputsAreValid()) {
-            const tratamiento = crearTratamiento();
-            dispatch({ type: 'addTratamiento', payload: tratamiento })
+            if (!tratamientoPorParametro) {
+                const tratamiento = crearTratamiento();
+                dispatch({ type: 'addTratamiento', payload: tratamiento })
+                props.navigation.navigate("TratamientosList");
+            } else {
+                const tratamiento = crearTratamiento();
+                dispatch({ type: 'modifyTratamiento', payload: tratamiento })
+                props.navigation.navigate("TratamientosList");
+            }
+
         } else {
             Alert.alert("Error", "Faltan datos")
         }
@@ -123,16 +135,21 @@ const TratamientosForm = (props) => {
                     <Text style={styles.TitleHeader}>Tratamientos</Text>
                 </View>
                 <View style={styles.Form}>
+                    {
+                        !tratamientoPorParametro && (<>
+                            <Text style={styles.center}>Id</Text>
+                            <TextInput
+                                maxLength={30}
+                                value={id}
+                                onChangeText={(id) => { setId(id) }}
+                                placeholder={id}
+                                style={styles.input}
+                                keyboardType='numeric'
+                            />
+                        </>
+                        )
+                    }
 
-                    <Text style={styles.center}>Id</Text>
-                    <TextInput
-                        maxLength={30}
-                        value={id}
-                        onChangeText={(id) => { setId(id) }}
-                        placeholder={id}
-                        style={styles.input}
-                        keyboardType='numeric'
-                    />
                     <Text style={styles.center}>Nombre</Text>
                     <TextInput
                         maxLength={30}
@@ -150,10 +167,10 @@ const TratamientosForm = (props) => {
                         keyboardType="numeric"
                         style={styles.input}
                     />
-                    <Chooser etiqueta={"Zonas"} valorInicial={zona} listaDesplegables={state.zones} renderizarItem={renderItemZona} guardarEstado={guardarEstadoZona} />
+                    <Chooser etiqueta={"Zona"} valorInicial={zona} listaDesplegables={state.zones} renderizarItem={renderItemZona} guardarEstado={guardarEstadoZona} />
                     <Chooser etiqueta={"Usuario"} valorInicial={ciUser} listaDesplegables={state.users} renderizarItem={renderItemUsuario} guardarEstado={guardarEstadoUsuario} />
-                    <Chooser etiqueta={"Insumos"} listaDesplegables={state.insumos} guardarEstado={guardarEstadoInsumos} renderizarItem={renderizarInsumos} />
-                    <Chooser etiqueta={"Observaciones"} listaDesplegables={state.observaciones} guardarEstado={guardarEstadoObservaciones} renderizarItem={renderizarObservaciones} />
+                    <Chooser etiqueta={"Insumo"} valorInicial={idInsumo} listaDesplegables={state.insumos} guardarEstado={guardarEstadoInsumos} renderizarItem={renderizarInsumos} />
+                    <Chooser etiqueta={"Observacion"} valorInicial={idObservacion} listaDesplegables={state.observaciones} guardarEstado={guardarEstadoObservaciones} renderizarItem={renderizarObservaciones} />
                     {
                         imagenObs && (
                             <View style={styles.observacionImagenContainer}>
@@ -162,8 +179,8 @@ const TratamientosForm = (props) => {
                         )
                     }
 
-                    <DatePicker titulo={"Elegir fecha Inicio"} guardarEstado={guardarEstadoFechaInicio} fecha={fechaInicio} />
-                    <DatePicker titulo={"Elegir fecha fin"} guardarEstado={guardarEstadoFechaFin} fecha={fechaFin} />
+                    <DatePicker titulo={"Elegir fecha Inicio"} guardarEstado={guardarEstadoFechaInicio} fecha={fechaInicio} mode="date" dateFormat="day month year" />
+                    <DatePicker titulo={"Elegir fecha fin"} guardarEstado={guardarEstadoFechaFin} fecha={fechaFin} mode="date" dateFormat="day month year" />
 
 
                     <ImagePickerDefault callback={guardarEstadoImagen} />

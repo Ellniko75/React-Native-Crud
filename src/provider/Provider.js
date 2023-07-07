@@ -1,7 +1,10 @@
 import React, { useReducer, createContext, useEffect } from 'react';
 import database from '../data/Database';
-
-
+import UserDatabase from '../data/UserDatabase';
+import ZonasDatabase from '../data/ZonasDatabase';
+import InsumosDatabase from '../data/InsumosDatabase';
+import TratamientosDatabase from '../data/TratamientosDatabase';
+import ObservacionesDatabase from '../data/ObservacionesDatabase';
 const UserContext = createContext();
 
 const reducer = (state, action) => {
@@ -10,21 +13,21 @@ const reducer = (state, action) => {
     /*#region UserActions*/
     case 'deleteUser':
       const aBorrar = action.payload;
-      database.deleteUser(aBorrar.ci)
+      UserDatabase.deleteUser(aBorrar.ci)
       return {
         ...state,
         users: state.users.filter((user) => user.ci !== aBorrar.ci)
       }
     case 'addUser':
       const aAgregar = action.payload;
-      database.insertUser(aAgregar)
+      UserDatabase.insertUser(aAgregar)
       return {
         ...state,
         users: [...state.users, aAgregar]
       }
     case 'modifyUser':
       const aModificar = action.payload;
-      database.modifyUser(aModificar)
+      UserDatabase.modifyUser(aModificar)
       return {
         ...state,
         users: state.users.map((user) => {
@@ -43,21 +46,21 @@ const reducer = (state, action) => {
     /*#region ZoneActions*/
     case 'insertZone':
       const aInsertar = action.payload;
-      database.insertZona(aInsertar)
+      ZonasDatabase.insertZona(aInsertar)
       return {
         ...state,
         zones: [...state.zones, aInsertar]
       }
     case 'deleteZone':
       const aBorrarZona = action.payload;
-      database.deleteZona(aBorrarZona.latitud, aBorrarZona.longitud)
+      ZonasDatabase.deleteZona(aBorrarZona.latitud, aBorrarZona.longitud)
       return {
         ...state,
         zones: state.zones.filter((zone) => (zone.latitud !== aBorrarZona.latitud) && (zone.longitud !== aBorrarZona.longitud))
       }
     case 'editZone':
       const aModificarZona = action.payload;
-      database.modifyZona(aModificarZona);
+      ZonasDatabase.modifyZona(aModificarZona);
       return {
         ...state,
         zones: state.zones.map((zone) => {
@@ -78,21 +81,21 @@ const reducer = (state, action) => {
     /*#region InsumosActions*/
     case 'addInsumos':
       const IAgregar = action.payload;
-      database.insertInsumos(IAgregar)
+      InsumosDatabase.insertInsumos(IAgregar)
       return {
         ...state,
         insumos: [...state.insumos, IAgregar]
       }
     case 'deleteInsumos':
       const IBorrar = action.payload;
-      database.deleteInsumos(IBorrar.id)
+      InsumosDatabase.deleteInsumos(IBorrar.id)
       return {
         ...state,
         insumos: state.insumos.filter((insumo) => insumo.id !== IBorrar.id)
       }
     case 'modifyInsumos':
       const IModificar = action.payload;
-      database.modifyInsumos(IModificar)
+      InsumosDatabase.modifyInsumos(IModificar)
       return {
         ...state,
         insumos: state.insumos.map((insumo) => {
@@ -111,21 +114,21 @@ const reducer = (state, action) => {
     /*#region ObservacionesActions*/
     case 'addObservacion':
       const OAgregar = action.payload;
-      database.insertObservacion(OAgregar);
+      ObservacionesDatabase.insertObservacion(OAgregar);
       return {
         ...state,
         observaciones: [...state.observaciones, OAgregar]
       }
     case 'deleteObservacion':
       const idBorrar = action.payload.id;
-      database.deleteObservacion(idBorrar);
+      ObservacionesDatabase.deleteObservacion(idBorrar);
       return {
         ...state,
         observaciones: state.observaciones.filter((obs) => obs.id !== idBorrar)
       }
     case 'editObservacion':
       const nuevaObservacion = action.payload
-      database.modifyObservacion(nuevaObservacion)
+      ObservacionesDatabase.modifyObservacion(nuevaObservacion)
       return {
         ...state,
         observaciones: state.observaciones.map((obs) => {
@@ -146,9 +149,41 @@ const reducer = (state, action) => {
     /*#region TratamientosActions*/
     case 'addTratamiento':
       const tratamiento = action.payload;
+      TratamientosDatabase.insertTratamiento(tratamiento)
       return {
         ...state,
         tratamientos: [...state.tratamientos, tratamiento]
+      }
+    case 'modifyTratamiento':
+      const tratamientoModify = action.payload;
+      TratamientosDatabase.modifyTratamiento(tratamientoModify)
+      return {
+        ...state,
+        tratamientos: state.tratamientos.map((tra) => {
+          if (tra.id == tratamientoModify.id) {
+            return {
+              ...tra,
+              nombre: tratamientoModify.nombre,
+              latitudZona: tratamientoModify.latitudZona,
+              longitudZona: tratamientoModify.longitudZona,
+              fechaInicio: tratamientoModify.fechaInicio,
+              ciUser: tratamientoModify.ciUser,
+              fechaFin: tratamientoModify.fechaFin,
+              tiempo: tratamientoModify.tiempo,
+              img: tratamientoModify.img,
+              idInsumo: tratamientoModify.idInsumo,
+              idObservacion: tratamientoModify.idObservacion
+            }
+          }
+          return tra;
+        })
+      }
+    case 'deleteTratamiento':
+      const tratamientoABorrar = action.payload
+      TratamientosDatabase.deleteTratamiento(tratamientoABorrar.id)
+      return {
+        ...state,
+        tratamientos: state.tratamientos.filter((t) => t.id !== tratamientoABorrar.id)
       }
 
     /*#endregion */
@@ -178,7 +213,8 @@ export const Provider = ({ children }) => {
       initialState.users = data.users;
       initialState.zones = data.zones;
       initialState.insumos = data.insumos;
-      initialState.observaciones = data.observaciones
+      initialState.observaciones = data.observaciones;
+      initialState.tratamientos = data.tratamientos
     })
   }, [])
 
@@ -188,7 +224,6 @@ export const Provider = ({ children }) => {
 
     <UserContext.Provider value={{ state, dispatch }}>
       {children}
-
     </UserContext.Provider>
   );
 };
