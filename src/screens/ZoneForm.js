@@ -101,7 +101,7 @@ const ZoneForm = (props) => {
 
       <View style={styles.container}>
 
-        <MapWithMarker lat={latitud} long={longitud} updateParentState={mapCallback} />
+        <MapWithMarker lat={latitud} long={longitud} disableChange={zonaPorParametro ? true : false} updateParentState={mapCallback} />
 
         <Text style={styles.center}>Ingrese Departamento</Text>
         <TextInput
@@ -112,7 +112,6 @@ const ZoneForm = (props) => {
           style={styles.input}
 
         />
-
 
         <Text style={styles.center}>Ingrese Cantidad de Trabajadores</Text>
         <TextInput

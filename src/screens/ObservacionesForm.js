@@ -7,7 +7,7 @@ import MapWithMarker from '../components/MapWithMarker'
 import CustomButton from '../components/CustomButton'
 import UserContext from '../provider/Provider'
 import { Image } from 'react-native-elements'
-
+import Gradient from '../components/Gradient'
 const ObservacionesForm = (props) => {
     const { state, dispatch } = useContext(UserContext)
 
@@ -70,13 +70,13 @@ const ObservacionesForm = (props) => {
     }
     return (
         <View style={styles.container}>
-
+            <Text style={styles.TitleHeader}>Observacion</Text>
             <Chooser valorInicial={titulo ? titulo : "Eliga un Titulo"} etiqueta={"Eliga un Titulo"} guardarEstado={callbackSetTitulo} listaDesplegables={["Plaga detectada", "Planta en mal estado", " Falta de riego"]} />
             <View style={styles.flexContainer}>
                 <ImagePickerDefault callback={callbackSetImage} />
                 {image && <Image source={{ uri: image }} style={{ marginLeft: '20%', width: 200, height: 200, margin: 5 }} />}
                 <View style={styles.map}>
-                    <MapWithMarker lat={latitud ? latitud : 0} long={longitud ? longitud : 0} updateParentState={callbackSetLatYLong} />
+                    <MapWithMarker lat={latitud ? latitud : 0} long={longitud ? longitud : 0} updateParentState={callbackSetLatYLong} disableChange={ObservacionPorParametro ? true : false} />
                 </View>
             </View>
             <CustomButton onPress={handleClick} text={props?.route?.params ? "Editar Observacion" : "Agregar Observacion"} icon={props?.route?.params ? "edit" : "pluscircleo"} />
@@ -96,5 +96,16 @@ const styles = StyleSheet.create({
     },
     map: {
         height: '100%',
-    }
+    },
+    TitleHeader: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: '#fff',
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 20,
+        backgroundColor: '#097969',
+        borderBottomRightRadius: 70,
+        marginBottom: 20
+    },
 })

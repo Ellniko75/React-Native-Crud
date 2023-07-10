@@ -20,7 +20,7 @@ en tal caso la funcion fetchLocalization() se encargará de pedir al usuario med
 mostrar el marker del mapa en esa posición
 */}
 
-const MapWithMarker = ({ lat, long, updateParentState }) => {
+const MapWithMarker = ({ lat, long, updateParentState, disableChange }) => {
   const [latitud, setLatitud] = useState(lat)
   const [longitud, setLongitud] = useState(long)
 
@@ -41,11 +41,14 @@ const MapWithMarker = ({ lat, long, updateParentState }) => {
   }
 
   const handleMapPress = (event) => {
-    let latitude = event.nativeEvent.coordinate.latitude
-    let longitude = event.nativeEvent.coordinate.longitude
-    setLatitud(latitude);
-    setLongitud(longitude);
-    updateParentState(latitude, longitude);
+    if (!disableChange) {
+      let latitude = event.nativeEvent.coordinate.latitude
+      let longitude = event.nativeEvent.coordinate.longitude
+      setLatitud(latitude);
+      setLongitud(longitude);
+      updateParentState(latitude, longitude);
+    }
+
   }
 
   useEffect(() => {

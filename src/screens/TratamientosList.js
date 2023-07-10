@@ -62,7 +62,7 @@ const TratamientosList = (props) => {
 
     return (
         <View style={styles.backgroundView}>
-            <Gradient texto={"Tratamientos"} colorAbajo='#CB57F0' />
+            <Gradient texto={"Tratamientos"} colorAbajo='#5fb9ba' />
             <View>
                 {state?.tratamientos?.length === 0 && (
                     <View style={styles.container}>
@@ -74,6 +74,7 @@ const TratamientosList = (props) => {
             <FlatList
                 data={state.tratamientos} renderItem={renderizarTratamientos}>
             </FlatList>
+            <CustomButton text={'Ver Tratamientos en Mapa'} onPress={() => props.navigation.navigate('TratamientosMapa')} />
             <CustomButton onPress={() => props.navigation.navigate('TratamientosForm')} icon='pluscircleo' text='Agregar Tratamientos' />
 
         </View>

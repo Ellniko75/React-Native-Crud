@@ -71,7 +71,7 @@ const ObservacionesList = (props) => {
 
     return (
         <View style={styles.backgroundView}>
-            <Gradient texto={"Observaciones"} colorAbajo='#a33a5d' />
+            <Gradient texto={"Observaciones"} colorAbajo='#097969' />
             {state?.observaciones?.length === 0 && (
                 <View style={{}}>
                     <Text style={styles.text}>No hay Observaciones Cargadas</Text>
