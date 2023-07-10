@@ -154,6 +154,8 @@ const reducer = (state, action) => {
         ...state,
         tratamientos: [...state.tratamientos, tratamiento]
       }
+
+
     case 'modifyTratamiento':
       const tratamientoModify = action.payload;
       TratamientosDatabase.modifyTratamiento(tratamientoModify)

@@ -11,6 +11,19 @@ const ZoneList = (props) => {
 
   const { state, dispatch } = useContext(UserContext)
 
+  const handleDelete = (item) => {
+    let inUse = false;
+    state.tratamientos.forEach(tratamiento => {
+      if (tratamiento.latitudZona == item.latitud && tratamiento.longitudZona == item.longitud) {
+        Alert.alert("Error", "No se puede borrar una zona que esté usada en un tratamiento")
+        inUse = true
+        return
+      }
+    })
+    if (!inUse) dispatch({ type: "deleteZone", payload: item })
+
+  }
+
   const getRightContent = (item) => {
     return (
       <View style={styles.rightButtons}>
@@ -25,7 +38,7 @@ const ZoneList = (props) => {
             onPress: () => console.log('Zona no borrada'),
             style: 'cancel',
           },
-          { text: 'Si', onPress: () => dispatch({ type: "deleteZone", payload: item }) },
+          { text: 'Si', onPress: () => handleDelete(item) },
 
         ])}>
           <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />

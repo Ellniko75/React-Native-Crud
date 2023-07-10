@@ -22,10 +22,10 @@ const TratamientosMapa = () => {
                 }}
 
             >
-
                 {
                     state.tratamientos.map((tratamiento) => (
                         <Marker
+                            key={tratamiento.latitudZona + tratamiento.longitudZona + Math.random() * 200}
                             title={tratamiento.nombre}
                             coordinate={{ latitude: tratamiento.latitudZona, longitude: tratamiento.longitudZona }}
                         />

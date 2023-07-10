@@ -15,6 +15,17 @@ const ObservacionesList = (props) => {
 
     const { state, dispatch } = useContext(UserContext)
 
+    const handleDelete = (item) => {
+        let inUse = false;
+        state.tratamientos.forEach(trat => {
+            if (trat.idObservacion == item.id) {
+                Alert.alert("Error", "La observacion ya está en un tratamiento")
+                inUse = true
+                return
+            }
+        })
+        if (!inUse) dispatch({ type: "deleteObservacion", payload: item })
+    }
 
     const getRightContent = (item) => {
         return (
@@ -30,7 +41,7 @@ const ObservacionesList = (props) => {
                         onPress: () => console.log('Observacion no borrada'),
                         style: 'cancel',
                     },
-                    { text: 'Si', onPress: () => dispatch({ type: "deleteObservacion", payload: item }) },
+                    { text: 'Si', onPress: () => handleDelete(item) },
                 ])}>
                     <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />
                 </TouchableOpacity>

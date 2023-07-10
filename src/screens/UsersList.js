@@ -13,6 +13,19 @@ const UsersList = (props) => {
 
   const { state, dispatch } = useContext(UserContext)
 
+  const handleDelete = (item) => {
+    let inUse = false
+    state.tratamientos.forEach(trat => {
+      if (trat.ciUser == item.ci) {
+        Alert.alert("Error", "El usuario está en un tratamiento")
+        inUse = true
+        return
+      }
+    })
+
+    if (!inUse) dispatch({ type: "deleteUser", payload: item })
+
+  }
 
   const getRightContent = (item) => {
     return (
@@ -28,7 +41,7 @@ const UsersList = (props) => {
             onPress: () => console.log('Usuario no borrado'),
             style: 'cancel',
           },
-          { text: 'Si', onPress: () => dispatch({ type: "deleteUser", payload: item }) },
+          { text: 'Si', onPress: () => handleDelete(item) },
         ])}>
           <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />
         </TouchableOpacity>

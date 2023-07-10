@@ -9,6 +9,8 @@ Este componente actua como un select
 valorInicial=>valor que se mostrará por default, opcional
 listaDesplegable=>array con los valores a desplegar
 guardarEstado=>callback para guardar el estado local del componente al componente padre
+etiqueta=>texto mostrado por default
+renderizarItem=> funcion que le dice al picker qué value label y key va a tener cada picker.item
 */}
 const Chooser = ({ guardarEstado, valorInicial, listaDesplegables, etiqueta, renderizarItem }) => {
   const [choosenLabel, setChoosenLabel] = useState();

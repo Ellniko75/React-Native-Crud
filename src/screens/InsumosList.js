@@ -10,6 +10,17 @@ const InsumosList = (props) => {
 
     const { state, dispatch } = useContext(UserContext)
 
+    const handleDelete = (item) => {
+        let inUse = false;
+        state.tratamientos.forEach(trat => {
+            if (trat.idInsumo == item.id) {
+                Alert.alert("Error", "El insumo está siendo usado en un tratamiento")
+                inUse = true
+                return
+            }
+        })
+        if (!inUse) dispatch({ type: "deleteInsumos", payload: item })
+    }
 
     const getRightContent = (item) => {
         return (
@@ -25,7 +36,7 @@ const InsumosList = (props) => {
                         onPress: () => console.log('Insumos no borrado'),
                         style: 'cancel',
                     },
-                    { text: 'Si', onPress: () => dispatch({ type: "deleteInsumos", payload: item }) },
+                    { text: 'Si', onPress: () => handleDelete(item) },
                 ])}>
                     <MaterialCommunityIcons name="delete-forever" size={50} color="#A41C1A" />
                 </TouchableOpacity>
@@ -55,7 +66,7 @@ const InsumosList = (props) => {
 
     return (
         <View style={styles.backgroundView}>
-            <Gradient texto={"Insumos"} colorAbajo='#CB57F0'/>
+            <Gradient texto={"Insumos"} colorAbajo='#CB57F0' />
             <View>
                 {state?.users?.length === 0 && (
                     <View style={styles.container}>
